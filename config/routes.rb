@@ -1,5 +1,15 @@
 Rails.application.routes.draw do
   resources :places
+
+  root 'places#index'
+
+  namespace :api, { format: 'json' } do
+    namespace :v1 do
+      resources :places, :only => [:index]
+    end
+  end
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

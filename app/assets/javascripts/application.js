@@ -15,4 +15,6 @@
 //= require turbolinks
 //= require united/loader
 //= require united/bootswatch
+//= require gmaps/google
+//= require underscore
 

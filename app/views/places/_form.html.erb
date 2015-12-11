@@ -10,16 +10,36 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
-    <%= f.label :latitude %><br>
+    <%= f.label :latitude, "撮影場所" %> <br>
     <%= f.text_field :latitude %>
+    <%= f.text_field :longitude %>  
+    <div id="map" style='width: 800px; height: 400px;'></div>
   </div>
-  <div class="field">
-    <%= f.label :longitude %><br>
-    <%= f.text_field :longitude %>
-  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+
+<script type="text/javascript">
+    handler = Gmaps.build('Google');
+    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+      latlng = new google.maps.LatLng(35.3759697,139.9169651);
+      handler.fitMapToBounds();
+      handler.getMap().setCenter(latlng);
+      handler.getMap().setZoom(13);
+      var marker = null;
+      google.maps.event.addListener(handler.getMap(), 'click', function(event) {
+        if(marker != null) {
+          marker.setMap(null);
+        }
+        marker = new google.maps.Marker({
+          position: event.latLng,
+          map: handler.getMap()
+        });
+        $('#place_latitude').val(event.latLng.lat());
+        $('#place_longitude').val(event.latLng.lng());
+      });
+    });
+</script>
